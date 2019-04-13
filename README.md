@@ -5,4 +5,4 @@ pinyin kotlin android
 ###
 
 `val s = Spell.get("张飞")`  
-`println(s)`  
+`println(s)  //zhang1fei1`  
