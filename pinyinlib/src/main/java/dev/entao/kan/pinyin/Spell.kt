@@ -1,4 +1,4 @@
-package dev.entao.pinyin
+package dev.entao.kan.pinyin
 
 /**
  * Created by entaoyang@163.com on 2016-08-06.

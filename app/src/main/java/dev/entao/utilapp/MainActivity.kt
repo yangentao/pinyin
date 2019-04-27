@@ -2,7 +2,7 @@ package dev.entao.utilapp
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import dev.entao.pinyin.Spell
+import dev.entao.kan.pinyin.Spell
 
 class MainActivity : AppCompatActivity() {
 

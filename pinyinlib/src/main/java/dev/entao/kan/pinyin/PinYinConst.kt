@@ -1,4 +1,4 @@
-package dev.entao.pinyin
+package dev.entao.kan.pinyin
 
 val __PinYinData: ArrayList<String> by lazy {
 	arrayListOf(pinyin1, pinyin2, pinyin3, pinyin4, pinyin5)

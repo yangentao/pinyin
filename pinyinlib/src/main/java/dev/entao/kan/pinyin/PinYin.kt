@@ -1,4 +1,4 @@
-package dev.entao.pinyin
+package dev.entao.kan.pinyin
 
 object PinYin {
     private val map: HashMap<Char, String> = HashMap(30000)
