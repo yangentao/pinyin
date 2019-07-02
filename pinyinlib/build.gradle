@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
 
 group = 'dev.entao.kan'
 
@@ -13,7 +13,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
-        versionName "3.0.0"
+        versionName "3.1.40"
     }
 
 
@@ -24,7 +24,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-
 
 
 task androidSourcesJar(type: Jar) {
@@ -42,10 +41,12 @@ uploadArchives {
             repository(url: 'http://app800.cn/maven/repository/releases/') {
                 authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
             }
-            pom.artifactId = "pinyin"
-            pom.groupId = project.group //'dev.entao'
-            pom.version = android.defaultConfig.versionName
-            pom.packaging = 'aar'
+            pom.project {
+                artifactId = "pinyin"
+                groupId = project.group //'dev.entao'
+                version = android.defaultConfig.versionName
+                packaging = 'aar'
+            }
 
         }
     }
