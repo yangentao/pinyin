@@ -1,45 +1,44 @@
 package dev.entao.kan.pinyin
 
+import android.app.Application
+import android.content.res.AssetManager
+
+//使用前先设置PinYin.app
 object PinYin {
-    private val map: HashMap<Char, String> = HashMap(30000)
+    private val cacheMap = HashMap<Char, String>(25000)
+    //0:Init, 1:Loading, 2:Loaded
+    private var status: Int = 0
+    var app: Application? = null
 
-    init {
-        for (s in __PinYinData) {
-            parseData2(s)
+    private fun preLoad() {
+        val ap = this.app ?: throw IllegalStateException("请先设置PinYin.app属性")
+        if (this.status != 0) {
+            return
         }
-    }
-
-    fun get(ch: Char): String? {
-        return map[ch]
-    }
-
-    private fun parseData2(pinYinData: String) {
-        val buf = StringBuilder(64)
-        var code: Char = 0.toChar()
-        var needCode = true
-        for (ch in pinYinData) {
-            if (ch == ' ') {
-                continue
-            }
-            if (ch == '\n' || ch == '\r') {
-                if (buf.isNotEmpty()) {
-                    map[code] = buf.toString()
-                    buf.setLength(0)
+        this.status = 1
+        try {
+            val inStream = ap.assets.open("yang_pinyin.data", AssetManager.ACCESS_BUFFER)
+            val br = inStream.bufferedReader()
+            br.forEachLine { line ->
+                if (line.length >= 3) {
+                    val ch = line[0]
+                    val py = line.substring(2)
+                    this.cacheMap[ch] = py
                 }
-                needCode = true
-                continue
             }
-            if (needCode) {
-                code = ch
-                needCode = false
-            } else {
-                buf.append(ch)
-            }
+            inStream.close()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        if (buf.isNotEmpty()) {
-            map[code] = buf.toString()
-        }
-
+        this.status = 2
     }
+
+    fun findOne(ch: Char): String? {
+        if (this.status != 2) {
+            this.preLoad()
+        }
+        return this.cacheMap[ch]
+    }
+
 
 }
